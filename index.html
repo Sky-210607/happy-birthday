@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Mokshita </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    .typing {
+      border-right: 3px solid #7e22ce;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    .cake-wrapper { display: grid; place-items: center; width: 100%; }
+    .cake-stage { position: relative; width: 250px; height: 200px; }
+    .cake { position: absolute; width: 250px; height: 200px; top: 0; left: 0; }
+    .cake > * { position: absolute; }
+    .plate { width: 270px; height: 110px; bottom: -10px; left: -10px; background-color: #ccc; border-radius: 50%; box-shadow: 0 2px 0 rgba(0,0,0,0.08), 0 4px 0 rgba(0,0,0,0.1), 0 5px 40px rgba(0,0,0,0.4); }
+
+    .layer { width: 250px; height: 100px; border-radius: 50%; background-color: #553c13; box-shadow: 0 2px 0 rgba(85,60,19,0.25), 0 4px 0 rgba(60,40,12,0.28), 0 6px 0 rgba(60,40,12,0.3); }
+    .layer-top { top: 0px; }
+    .layer-middle { top: 33px; }
+    .layer-bottom { top: 66px; }
+
+    .icing { top: 2px; left: 5px; background-color: #ffb6c1; width: 240px; height: 90px; border-radius: 50%; position: relative; }
+    .sprinkle { position: absolute; width: 6px; height: 3px; border-radius: 2px; transform: rotate(var(--angle)); }
+
+    .drip { display: block; width: 50px; height: 60px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; background-color: #ffb6c1; }
+    .drip1 { top: 53px; left: 5px; transform: skewY(15deg); height: 48px; width: 40px; }
+    .drip2 { top: 69px; left: 181px; transform: skewY(-15deg); }
+    .drip3 { top: 54px; left: 90px; width: 80px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+
+    .candle { background-color: #7b020b; width: 16px; height: 50px; border-radius: 8px/4px; top: -20px; left: 50%; margin-left: -8px; z-index: 10; position: absolute; }
+    .candle::before { content: ""; position: absolute; top: 0; left: 0; width: 16px; height: 8px; border-radius: 50%; background-color: #98121a; }
+
+    .flame { position: absolute; background-color: orange; width: 15px; height: 35px; border-radius: 10px 10px 10px 10px / 25px 25px 10px 10px; top: -34px; left: 50%; margin-left: -7.5px; z-index: 10; box-shadow: 0 0 10px rgba(255,165,0,0.5),0 0 20px rgba(255,165,0,0.5),0 0 60px rgba(255,165,0,0.5),0 0 80px rgba(255,165,0,0.5); transform-origin: 50% 90%; animation: flame-flicker 1s ease-in-out alternate infinite; }
+    @keyframes flame-flicker { 0% { transform: skewX(5deg); } 25% { transform: skewX(-5deg); } 50% { transform: skewX(10deg); } 75% { transform: skewX(-10deg); } 100% { transform: skewX(5deg); } }
+
+    .pop { animation: pop-in 380ms ease forwards; transform: scale(0.85); opacity: 0; }
+    @keyframes pop-in { to { transform: scale(1); opacity: 1; } }
+
+    .hidden-flame { opacity: 0; animation: none !important; box-shadow: none !important; }
+
+    #musicSection {
+      background: linear-gradient(to bottom right, #f3e8ff, #fce7f3);
+      padding: 5rem 2rem;
+    }
+    .vinyl {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(#222 0%, #000 70%);
+      border: 6px solid #2d1b3d;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      animation: spin 5s linear infinite;
+      animation-play-state: paused;
+    }
+    .vinyl.playing { animation-play-state: running; box-shadow: 0 0 30px #c084fc; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .vinyl img {
+      position: absolute; top: 50%; left: 50%;
+      width: 80px; height: 80px; object-fit: cover;
+      border-radius: 50%; transform: translate(-50%, -50%);
+      border: 3px solid #f5d0fe;
+    }
+    .needle {
+      width: 120px; height: 6px; background: #444;
+      position: absolute; top: 20px; right: -10px;
+      transform-origin: left center; transform: rotate(0deg);
+      transition: transform 0.5s ease;
+    }
+    .vinyl.playing + .needle { transform: rotate(25deg); }
+
+    #playlist {
+      backdrop-filter: blur(12px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(250,230,255,0.4));
+      border-radius: 18px;
+      padding: 1.2rem;
+      box-shadow: 0 8px 25px rgba(147,51,234,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    #playlist li {
+      cursor: pointer;
+      padding: 1rem 1.3rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,245,255,0.7), rgba(255,240,250,0.8));
+      color: #6b21a8;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease-in-out;
+    }
+    #playlist li:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, rgba(236,72,153,0.85), rgba(168,85,247,0.8));
+      color: white;
+    }
+    #playlist li.active {
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(147,51,234,0.5);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 text-purple-900 overflow-x-hidden">
+
+  <!-- HERO SECTION -->
+  <section class="text-purple-800">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-28" data-aos="fade-up">
+      <div class="grid items-center gap-12 md:grid-cols-2">
+        <div class="space-y-6 md:pr-6" data-aos="fade-right">
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-purple-700">
+            <span id="typingText" class="typing"></span><br>
+            <span class="block text-purple-900 mt-2 text-6xl md:text-7xl font-bold">Mokshita</span>
+          </h1>
+          <p class="max-w-md text-base md:text-lg leading-relaxed text-purple-600">
+            Wishing you a day filled with joy, love, and unforgettable memories.
+          </p>
+          <button id="goToCelebration" class="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-3 rounded-full shadow-md transition transform hover:scale-105">
+            Go to Celebration 
+          </button>
+        </div>
+        <div class="relative grid grid-cols-2 gap-5 md:gap-6" data-aos="fade-left">
+          <div class="bg-white p-2 shadow-md outline outline-1 outline-purple-200 rotate-1 rounded-md">
+            <img src="IMG-20251015-WA0004.jpg" alt="cake" class="rounded-sm object-cover" />
+          </div>
+          <div class="-rotate-3 bg-white p-2 shadow-md outline outline-1 outline-purple-200 rounded-md">
+            <img src="WhatsApp Image 2025-10-15 at 15.01.42_eba474ce.jpg" alt="balloons" class="rounded-sm object-cover" />
+          </div>
+          <div class="rotate-6 bg-white p-2 shadow-md outline outline-1 outline-purple-200 rounded-md">
+            <img src="WhatsApp Image 2025-10-15 at 15.05.22_8ff22b60.jpg" alt="gift" class="rounded-sm object-cover" />
+          </div>
+          <div class="bg-white p-2 shadow-md outline outline-1 outline-purple-200 rotate-1 rounded-md">
+            <img src="IMG-20251015-WA0006.jpg" alt="cake" class="rounded-sm object-cover" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CELEBRATION SECTION -->
+  <section id="celebrationSection" class="text-center py-20 bg-purple-50 relative overflow-hidden">
+    <h2 class="text-4xl md:text-5xl font-bold text-purple-700 mb-6" data-aos="fade-up">
+       Let’s Celebrate! 
+    </h2>
+
+    <div id="celebrationArea" class="min-h-[400px] flex flex-col items-center justify-center relative">
+      <div class="cake-wrapper">
+        <div class="cake-stage">
+          <div class="cake" role="img" aria-label="Birthday cake being assembled">
+            <div class="plate" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center flex-wrap gap-6 mt-10" data-aos="zoom-in">
+      <button id="nextBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-3 rounded-full shadow-md transition transform hover:scale-105">
+        Add First Layer 
+      </button>
+      <button id="resetBtn" class="bg-purple-200 hover:bg-purple-300 text-purple-900 font-medium px-6 py-3 rounded-full shadow-md transition transform hover:scale-105">
+        Reset 
+      </button>
+      <button id="blowBtn" class="bg-pink-400 hover:bg-pink-500 text-white font-medium px-6 py-3 rounded-full shadow-md transition transform hover:scale-105 hidden">
+        Blow Candle 
+      </button>
+    </div>
+
+    <p id="stepText" class="mt-4 text-purple-700 font-semibold text-lg">
+      Step 1 of 5
+    </p>
+  </section>
+
+  <!-- MUSIC PLAYER SECTION -->
+  <section id="musicSection" class="relative">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl font-bold text-purple-800 mb-6">Songs That Remind Me of You</h2>
+        <ul id="playlist" class="space-y-3">
+          <li>Angel Baby</li>
+          <li>Unakkul Naane</li>
+          <li>Inkem Inkem Kavale</li>
+          <li>Majhe Majhe Tobo</li>
+          <li>Aapki Nazron Ne Samjha</li>
+          <li>Mast Magan</li>
+        </ul>
+      </div>
+
+      <div class="flex flex-col items-center text-center space-y-6">
+        <div class="relative">
+          <div id="vinyl" class="vinyl">
+            <img id="vinylImg" src="cover1.jpg" alt="vinyl center image">
+          </div>
+          <div class="needle"></div>
+        </div>
+        <button id="playPause" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition">
+          Play
+        </button>
+        <p id="songDesc" class="text-purple-700 max-w-md leading-relaxed">
+          This song reminds me of her smile when the world feels heavy
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    const textElement = document.getElementById("typingText");
+    const texts = ["Happy Birthday", "హ్యాపీ బర్త్‌డే", "শুভ জন্মদিন", "जन्मदिन मुबारक", "ಹ್ಯಾಪಿ ಬರ್ಥ್‌ಡೇ"];
+    let textIndex = 0, charIndex = 0, isDeleting = false;
+    function typeEffect() {
+      const currentText = texts[textIndex];
+      const displayed = isDeleting ? currentText.substring(0, charIndex--) : currentText.substring(0, charIndex++);
+      textElement.textContent = displayed;
+      if (!isDeleting && charIndex === currentText.length) setTimeout(() => isDeleting = true, 1000);
+      else if (isDeleting && charIndex === 0) { isDeleting = false; textIndex = (textIndex + 1) % texts.length; }
+      setTimeout(typeEffect, isDeleting ? 80 : 120);
+    }
+    typeEffect();
+
+    document.getElementById("goToCelebration").addEventListener("click", () => {
+      document.getElementById("celebrationSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    const cake = document.querySelector('.cake');
+    const nextBtn = document.getElementById('nextBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const blowBtn = document.getElementById('blowBtn');
+    const stepText = document.getElementById('stepText');
+    let step = 0;
+    const steps = [
+      { label: "Add First Layer ", add: () => addLayer('layer-bottom') },
+      { label: "Add Second Layer ", add: () => addLayer('layer-middle') },
+      { label: "Add Third Layer ", add: () => addLayer('layer-top') },
+      { label: "Add Icing ", add: addIcing },
+      { label: "Place Candle ", add: addCandle }
+    ];
+    function addLayer(className) { const div = document.createElement('div'); div.className = `layer ${className} pop`; cake.appendChild(div); }
+    function addIcing() {
+      const icing = document.createElement('div'); icing.className = 'icing pop'; cake.appendChild(icing);
+      ['drip1','drip2','drip3'].forEach(d => { const drip = document.createElement('span'); drip.className = `drip ${d} pop`; cake.appendChild(drip); });
+      const colors = ['#ff69b4','#ff1493','#ffa500','#00ced1','#32cd32','#9370db'];
+      for (let i = 0; i < 40; i++) {
+        const sprinkle = document.createElement('div'); sprinkle.className = 'sprinkle';
+        sprinkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        sprinkle.style.top = (Math.random() * 80 + 5) + "px";
+        sprinkle.style.left = (Math.random() * 220 + 10) + "px";
+        sprinkle.style.setProperty('--angle', Math.random() * 360 + 'deg');
+        icing.appendChild(sprinkle);
+      }
+    }
+    function addCandle() { const candle = document.createElement('div'); candle.className = 'candle pop'; cake.appendChild(candle); const flame = document.createElement('div'); flame.className = 'flame pop'; candle.appendChild(flame); blowBtn.classList.remove('hidden'); }
+
+    nextBtn.addEventListener('click', () => {
+  if (step < steps.length) { steps[step].add(); step++; stepText.textContent = `Step ${step + 1} of ${steps.length}`; nextBtn.textContent = step < steps.length ? steps[step].label : "All Done"; }
+    });
+
+  resetBtn.addEventListener('click', () => { cake.innerHTML = '<div class="plate"></div>'; step = 0; stepText.textContent = "Step 1 of 5"; nextBtn.textContent = "Add First Layer "; blowBtn.classList.add('hidden'); });
+    blowBtn.addEventListener('click', () => { const flame = document.querySelector('.flame'); if (flame) flame.classList.add('hidden-flame'); });
+
+    const songs = [
+    { title: "Angel Baby", src: "Troye Sivan - Angel Baby (Lyrics).mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "You saved me quite literally" },
+    { title: "Unakkul Naane", src: "Unakkul Naane - Pritt.mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "Ever since I heard of this song, i have wondered that u look like this song." },
+  { title: "Inkem Inkem Kavale", src: "Inkem Inkem -lyrics  Geetha Govindam  Sid Sriram  LYRICS #vijaydevarakonda.mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "I read the lyrics and all i could think of is you" },
+  { title: "Majhe Majhe Tobo", src: "Majhe Majhe Tobo (মঝ মঝ তব )  Prashmita Paul  Rabindra Sangeet  Aalo.mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "Yk my love for rabindra sangeet, so of course i had to dedicate this song for u" },
+  { title: "Aapki Nazron Ne Samjha", src: "आपक नजर न समझ Aap Ki Nazro Ne Samjha - HD वडय सग - लत मगशकर - अनपढ (1962).mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "I am so lucky that your eyes found me worthy of your love" },
+  { title: "Mast Magan", src: "Mast Magan Full Song with Lyrics  2 States  Arijit Singh  Arjun Kapoor, Alia Bhatt.mp3", img: "abstract-background-of-cicle-modern-wall-3d-rendering.webp", desc: "Us, cause i will go flying to u one day." }
+    ];
+
+    const audioPlayer = document.getElementById("audioPlayer");
+    const playPause = document.getElementById("playPause");
+    const playlist = document.querySelectorAll("#playlist li");
+    const vinyl = document.getElementById("vinyl");
+    const vinylImg = document.getElementById("vinylImg");
+    const songDesc = document.getElementById("songDesc");
+    let currentSong = null; // no song selected initially
+
+    function playAudio() {
+      const p = audioPlayer.play();
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          // playing started
+        }).catch(err => {
+          // autoplay might be blocked; keep UI consistent
+          console.warn('Playback prevented:', err);
+          playPause.textContent = 'Play';
+          vinyl.classList.remove('playing');
+        });
+      }
+    }
+
+    function pauseAudio() {
+      audioPlayer.pause();
+    }
+
+    function playSong(index) {
+      currentSong = index;
+      // encodeURI handles spaces and special characters like '#' in filenames
+      audioPlayer.src = encodeURI(songs[index].src);
+      vinylImg.src = songs[index].img;
+      songDesc.textContent = songs[index].desc;
+      playlist.forEach(li => li.classList.remove("active"));
+      playlist[index].classList.add("active");
+      playAudio();
+    }
+
+    playlist.forEach((li, index) => li.addEventListener("click", () => {
+      // If clicked item is already the current song, toggle playback
+      if (index === currentSong) {
+        if (audioPlayer.paused) playAudio();
+        else pauseAudio();
+      } else {
+        playSong(index);
+      }
+    }));
+
+    playPause.addEventListener("click", () => {
+      if (audioPlayer.paused) {
+        // If no song selected, start the first one
+        if (currentSong === null) playSong(0);
+        else playAudio();
+      } else {
+        pauseAudio();
+      }
+    });
+
+    // Keep UI in sync with actual audio state
+    audioPlayer.addEventListener('play', () => {
+      vinyl.classList.add('playing');
+      playPause.textContent = 'Pause';
+    });
+    audioPlayer.addEventListener('pause', () => {
+      vinyl.classList.remove('playing');
+      playPause.textContent = 'Play';
+    });
+
+    // When the audio ends, reset UI
+    audioPlayer.addEventListener('ended', () => {
+      vinyl.classList.remove('playing');
+      playPause.textContent = 'Play';
+    });
+  </script>
+  <!-- MEMORY FLIPBOOK 2.0 SECTION -->
+<section id="memoryFlipbook2" class="py-20 bg-gradient-to-b from-pink-50 to-purple-100">
+  <div class="max-w-6xl mx-auto px-4" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-bold text-purple-800 text-center mb-8">
+  Lastly a smol paragraph
+    </h2>
+
+    <div class="flex flex-col items-center gap-8">
+      <!-- Static box replacement for flipbook; keeps same dimensions -->
+      <div class="relative w-[500px] h-[350px] bg-white rounded-lg shadow-md outline outline-1 outline-purple-200 overflow-hidden flex items-center justify-center" id="memoryBox">
+        <div class="text-center p-4">
+          <p class="text-purple-800 font-semibold">Happy birthday my moon</p>
+          <p class="text-purple-600 mt-2">It's all about you today, and I just wanted to say how wonderful you are.  You truly make my life brighter in ways I cannot even describe.  Every day feels special because of your laugh, your smile, and simply who you are.
+
+ Whether we're just lounging around the house, going on adventures, or having those in-depth late-night conversations, I cherish every little moment we spend together.  I'm so happy to have you by my side because you make everything better.
+
+
+ I hope you get to do everything you enjoy on your special day.  I'm excited to see what this year has in store for you because you deserve all the joy in the world.  So, when you blow out those, make a wish.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
+</body>
+</html>
